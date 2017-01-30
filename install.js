@@ -59,7 +59,7 @@ catch (e) {}
 // Create generic precommit hook that launches this modules hook (as well
 // as stashing - unstashing the unstaged changes)
 // TODO: we could keep launching the old pre-commit scripts
-var hookRelativeUnixPath = hook.replace(root, '.\$ENV_DIR');
+var hookRelativeUnixPath = hook.replace(root, '.');
 
 if(os.platform() === 'win32') {
   hookRelativeUnixPath = hookRelativeUnixPath.replace(/[\\\/]+/g, '/');
