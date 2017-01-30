@@ -67,6 +67,10 @@ if(os.platform() === 'win32') {
 
 var precommitContent = '#!/bin/bash' + os.EOL
   + 'ENV_DIR=`git config --local --get core.envDir`' + os.EOL
+  + 'if [ -n $ENV_DIR ]' + os.EOL
+  + 'then' + os.EOL
+  + 'cd ./$ENV_DIR' + os.EOL
+  + 'fi' + os.EOL
   +  hookRelativeUnixPath + os.EOL
   + 'RESULT=$?' + os.EOL
   + '[ $RESULT -ne 0 ] && exit 1' + os.EOL
