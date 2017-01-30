@@ -1,6 +1,13 @@
 # pre-commit
 
 [pre-commit](https://github.com/observing/pre-commit) with some additional functional
+with git config parameter `core.envDir` you can specify some environment directory
+
+`git config --local --add core.envDir server`
+
+or
+
+`git config --local --add core.envDir client`
 
 **pre-commit** is a pre-commit hook installer for `git`. It will ensure that
 your `npm test` (or other specified scripts) passes before you can commit your
