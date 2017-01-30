@@ -20,6 +20,14 @@ var git = path.resolve(root, '.git')
   , hooks = path.resolve(git, 'hooks')
   , precommit = path.resolve(hooks, 'pre-commit');
 
+//new recursive upward type of search .git
+var currentDir, newCurrentDir =  __dirname;
+do {
+  currentDir = newCurrentDir;
+  git = path.resolve(newCurrentDir, '.git');
+  newCurrentDir = path.resolve(currentDir, '..');
+} while (!(exists(git) || (newCurrentDir == currentDir)));
+
 //
 // Bail out if we don't have an `.git` directory as the hooks will not get
 // triggered. If we do have directory create a hooks folder if it doesn't exist.
