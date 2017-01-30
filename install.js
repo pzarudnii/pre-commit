@@ -16,9 +16,7 @@ var fs = require('fs')
 // `pre-commit` file. The path needs to be absolute in order for the symlinking
 // to work correctly.
 //
-var git = path.resolve(root, '.git')
-  , hooks = path.resolve(git, 'hooks')
-  , precommit = path.resolve(hooks, 'pre-commit');
+var git;
 
 //new recursive upward type of search .git
 var currentDir, newCurrentDir =  __dirname;
@@ -27,6 +25,9 @@ do {
   git = path.resolve(newCurrentDir, '.git');
   newCurrentDir = path.resolve(currentDir, '..');
 } while (!(exists(git) || (newCurrentDir == currentDir)));
+
+var hooks = path.resolve(git, 'hooks')
+  , precommit = path.resolve(hooks, 'pre-commit');
 
 //
 // Bail out if we don't have an `.git` directory as the hooks will not get
