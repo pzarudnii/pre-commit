@@ -71,10 +71,15 @@ var precommitContent = '#!/bin/bash' + os.EOL
   + 'then' + os.EOL
   + 'cd ./$ENV_DIR' + os.EOL
   + 'fi' + os.EOL
+  + 'if [ -f ' + hookRelativeUnixPath + ' ] ' + os.EOL
+  + 'then'
   +  hookRelativeUnixPath + os.EOL
   + 'RESULT=$?' + os.EOL
   + '[ $RESULT -ne 0 ] && exit 1' + os.EOL
-  + 'exit 0' + os.EOL;
+  + 'exit 0' + os.EOL
+  + 'else' + os.EOL
+  + 'exit 0' + os.EOL
+  + 'fi' + os.EOL;
 
 //
 // It could be that we do not have rights to this folder which could cause the
