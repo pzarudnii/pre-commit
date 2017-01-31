@@ -72,7 +72,7 @@ var precommitContent = '#!/bin/bash' + os.EOL
   + 'cd ./$ENV_DIR' + os.EOL
   + 'fi' + os.EOL
   + 'if [ -f ' + hookRelativeUnixPath + ' ] ' + os.EOL
-  + 'then'
+  + 'then' + os.EOL
   +  hookRelativeUnixPath + os.EOL
   + 'RESULT=$?' + os.EOL
   + '[ $RESULT -ne 0 ] && exit 1' + os.EOL
