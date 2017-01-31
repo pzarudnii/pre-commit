@@ -6,6 +6,8 @@ var spawn = require('cross-spawn')
   , util = require('util')
   , tty = require('tty');
 
+process.chdir('..');
+
 /**
  * Representation of a hook runner.
  *
@@ -172,15 +174,18 @@ Hook.prototype.initialize = function initialize() {
 
   this.root = this.exec(this.git, ['rev-parse', '--show-toplevel']);
   this.status = this.exec(this.git, ['status', '--porcelain']);
+  this.envDir = this.exec(this.git, ['config', '--local', '--get', 'core.envDir']);
 
   if (this.status.code) return this.log(Hook.log.status, 0);
   if (this.root.code) return this.log(Hook.log.root, 0);
+  if (this.envDir.code) return this.log(Hook.log.envDir, 0);
 
   this.status = this.status.stdout.toString().trim();
   this.root = this.root.stdout.toString().trim();
+  this.envDir = this.envDir.stdout.toString().trim();
 
   try {
-    this.json = require(path.join(this.root, 'package.json'));
+    this.json = require(path.join(this.root, this.envDir, 'package.json'));
     this.parse();
   } catch (e) { return this.log(this.format(Hook.log.json, e.message), 0); }
 
@@ -295,6 +300,11 @@ Hook.log = {
     '  git commit -n (or --no-verify)',
     '',
     'This is ill-advised since the commit is broken.'
+  ].join('\n'),
+  envDir: [
+    'core.envDir not specified, please add variable to git config',
+    'ex. `git config --local --add core.envDir server`',
+    'Skipping the pre-commit hook.'
   ].join('\n')
 };
 
