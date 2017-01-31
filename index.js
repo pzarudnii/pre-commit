@@ -4,7 +4,12 @@ var spawn = require('cross-spawn')
   , which = require('which')
   , path = require('path')
   , util = require('util')
-  , tty = require('tty');
+  , tty = require('tty')
+  , fs = require('fs');
+
+if (!fs.existsSync('.git')) {
+  process.chdir('..');
+}
 
 /**
  * Representation of a hook runner.
@@ -176,15 +181,14 @@ Hook.prototype.initialize = function initialize() {
 
   if (this.status.code) return this.log(Hook.log.status, 0);
   if (this.root.code) return this.log(Hook.log.root, 0);
-  if (!this.envDir.code) {
-    process.chdir('..');
-  } else {
+  if (this.envDir.code) {
     this.envDir = '';
+  } else {
+    this.envDir = this.envDir.stdout.toString().trim();
   }
 
   this.status = this.status.stdout.toString().trim();
   this.root = this.root.stdout.toString().trim();
-  this.envDir = this.envDir.stdout.toString().trim();
 
   try {
     this.json = require(path.join(this.root, this.envDir, 'package.json'));
