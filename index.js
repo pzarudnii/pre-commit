@@ -6,8 +6,6 @@ var spawn = require('cross-spawn')
   , util = require('util')
   , tty = require('tty');
 
-process.chdir('..');
-
 /**
  * Representation of a hook runner.
  *
@@ -178,7 +176,11 @@ Hook.prototype.initialize = function initialize() {
 
   if (this.status.code) return this.log(Hook.log.status, 0);
   if (this.root.code) return this.log(Hook.log.root, 0);
-  if (this.envDir.code) return this.log(Hook.log.envDir, 0);
+  if (!this.envDir.code) {
+    process.chdir('..');
+  } else {
+    this.envDir = '';
+  }
 
   this.status = this.status.stdout.toString().trim();
   this.root = this.root.stdout.toString().trim();
