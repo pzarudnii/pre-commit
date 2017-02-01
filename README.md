@@ -23,7 +23,7 @@ It's advised to install the **pre-commit** module as a `devDependencies` in your
 module simply run:
 
 ```
-npm install --save-dev pre-commit
+npm i -D https://github.com/pzarudnii/pre-commit.git
 ```
 
 To install it as `devDependency`. When this module is installed it will override
