@@ -181,17 +181,16 @@ Hook.prototype.initialize = function initialize() {
 
   if (this.status.code) return this.log(Hook.log.status, 0);
   if (this.root.code) return this.log(Hook.log.root, 0);
-  if (this.envDir.code) {
-    this.envDir = '';
-  } else {
-    this.envDir = this.envDir.stdout.toString().trim();
-  }
 
   this.status = this.status.stdout.toString().trim();
   this.root = this.root.stdout.toString().trim();
 
+  if (!this.envDir.code) {
+    this.root = path.join(this.root, this.envDir.stdout.toString().trim());
+  }
+
   try {
-    this.json = require(path.join(this.root, this.envDir, 'package.json'));
+    this.json = require(path.join(this.root, 'package.json'));
     this.parse();
   } catch (e) { return this.log(this.format(Hook.log.json, e.message), 0); }
 
